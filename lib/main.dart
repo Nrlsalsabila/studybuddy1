@@ -41,6 +41,7 @@ class StudyBuddyApp extends StatelessWidget {
           ),
           bodyMedium: TextStyle(
             fontSize: 16,
+            
             color: themeAccent,
             fontFamily: fontFamily,
           ),
