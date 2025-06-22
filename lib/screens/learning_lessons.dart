@@ -8,6 +8,7 @@ final Color themeBackground = const Color(0xFFFFF5E1);
 final Color themeAccent = const Color(0xFF8B4513);
 
 // ===================== Main Learning Lessons Screen =====================
+// main screen for subject (math, english, science)
 class LearningLessonsScreen extends StatelessWidget {
   const LearningLessonsScreen({super.key});
 
@@ -26,6 +27,8 @@ class LearningLessonsScreen extends StatelessWidget {
         ),
         centerTitle: false,
       ),
+      
+      // contains math, english subject cards 
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
@@ -70,6 +73,8 @@ class LearningLessonsScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
+
+            // contains science subject card 
             Expanded(
               child: Row(
                 children: [
@@ -102,7 +107,8 @@ class LearningLessonsScreen extends StatelessWidget {
   }
 }
 
-// Update SubjectCard to accept emoji instead of imageUrl
+// subject card widget 
+// display subject card with emoji icon and tittle 
 class SubjectCard extends StatelessWidget {
   final String title;
   final IconData icon;
@@ -116,8 +122,8 @@ class SubjectCard extends StatelessWidget {
     super.key,
     required this.title,
     required this.icon,
-    this.emoji = '',
-    this.imageUrl = '',
+    this.emoji = '',  // emoji character for subject 
+    this.imageUrl = '',  // not use 
     required this.color,
     this.backgroundColor = Colors.white,
     required this.onTap,
@@ -126,7 +132,7 @@ class SubjectCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: onTap,  // navigation on tap 
       child: Container(
         decoration: BoxDecoration(
           color: backgroundColor,
@@ -144,7 +150,7 @@ class SubjectCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Show emoji instead of image
+            // Show emoji for subject             
             Text(
               emoji,
               style: const TextStyle(fontSize: 60),
@@ -205,8 +211,10 @@ class LegacySubjectCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+             // display subject image 
             Image.network(imageUrl, height: 60),
             const SizedBox(height: 10),
+            // display subject tittle 
             Text(
               title,
               style: TextStyle(
@@ -222,7 +230,8 @@ class LegacySubjectCard extends StatelessWidget {
   }
 }
 
-// ===================== Math Game Screen =====================
+// ===================== Math Game Screen =====================  
+// drag and drop math activity 
 class MathGameScreen extends StatefulWidget {
   const MathGameScreen({super.key});
 
@@ -240,10 +249,10 @@ class _MathGameScreenState extends State<MathGameScreen> {
   ];
 
   late List<Map<String, dynamic>> activities;
-  int currentIndex = 0;
-  String droppedAnswer = '';
-  int stars = 0;
-  int wrongAttempts = 0;
+  int currentIndex = 0;  // currently show activity 
+  String droppedAnswer = '';  // user dragged answer 
+  int stars = 0;  // start score 
+  int wrongAttempts = 0;  // number of wrong 
   bool showingDialog = false;
 
   final List<String> numberOptions = ['2', '3', '4', '5', '6'];
@@ -265,6 +274,7 @@ class _MathGameScreenState extends State<MathGameScreen> {
   }
 
   void _showScoreScreen() {
+    // show final result when finished 
     if (showingDialog) return;
     showingDialog = true;
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -306,7 +316,8 @@ class _MathGameScreenState extends State<MathGameScreen> {
       setState(() => wrongAttempts += 1);
     }
 
-    if (showingDialog) return;
+    if (showingDialog) return; 
+    // show for correct or incorrect answer 
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       showDialog(
@@ -353,6 +364,7 @@ class _MathGameScreenState extends State<MathGameScreen> {
     });
     showingDialog = true;
 
+    // display the dropp answer 
     setState(() {
       droppedAnswer = data;
     });
@@ -360,6 +372,7 @@ class _MathGameScreenState extends State<MathGameScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // show final result when finised 
     if (currentIndex >= activities.length) {
       _showScoreScreen();
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
@@ -377,6 +390,8 @@ class _MathGameScreenState extends State<MathGameScreen> {
           'Math Game: Count the Objects',
           style: const TextStyle(fontFamily: 'AlfaSlabOne'),
         ),
+
+        // display total start earn 
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
@@ -423,7 +438,7 @@ class _MathGameScreenState extends State<MathGameScreen> {
                   ),
                 ],
               ),
-              // Drag Target
+              // Drag Target area 
               DragTarget<String>(
                 builder: (context, candidateData, rejectedData) {
                   return Container(
@@ -451,7 +466,7 @@ class _MathGameScreenState extends State<MathGameScreen> {
                 onWillAcceptWithDetails: (_) => true,
                 onAcceptWithDetails: (details) => _handleAnswer(details.data, objectCount),
               ),
-              // Navigation Buttons
+                  // Navigation Buttons
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -525,7 +540,8 @@ class _MathGameScreenState extends State<MathGameScreen> {
       ),
     );
   }
-
+  
+  // number box widget 
   Widget _buildNumberBox(String num, {required Color color}) {
     return Container(
       padding: const EdgeInsets.all(16),
@@ -555,6 +571,7 @@ class _MathGameScreenState extends State<MathGameScreen> {
 }
 
 // ===================== English Reading Screen =====================
+// interactive story with flip pages 
 class EnglishReadingScreen extends StatefulWidget {
   const EnglishReadingScreen({super.key});
 
@@ -833,7 +850,7 @@ class ScienceTutorialScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (exp['image'] != null)
+                  if (exp['image'] != null)    // experiment image 
                     ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: Image.asset(
@@ -895,6 +912,8 @@ class ScienceTutorialScreen extends StatelessWidget {
                     return Text((exp['discussion'] as List)[i]);
                   }),
                   const SizedBox(height: 16),
+
+                  // button to watch tutorial video 
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton.icon(

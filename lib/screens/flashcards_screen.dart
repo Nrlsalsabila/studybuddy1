@@ -9,22 +9,23 @@ class FlashcardsScreen extends StatefulWidget {
 }
 
 class _FlashcardsScreenState extends State<FlashcardsScreen> {
-  final List<Map<String, dynamic>> allFlashcards = [
-    // Science
+  final List<Map<String, dynamic>> allFlashcards = [  // list of flashcard
+
+    // Science question
     {'question': 'What planet do we live on?', 'answer': 'Earth', 'image': 'assets/earth.jpg'},
     {'question': 'What do plants need to make food?', 'answer': 'Sunlight', 'image': 'assets/sunlight.jpg'},
     {'question': 'What gas do humans need to breathe?', 'answer': 'Oxygen', 'image': 'assets/oxygen.jpg'},
     {'question': 'What color is the sky on a sunny day?', 'answer': 'Blue', 'image': 'assets/bluesky.jpg'},
     {'question': 'What is H2O commonly known as?', 'answer': 'Water', 'image': 'assets/water.jpg'},
 
-    // Math
+    // Math  question
     {'question': 'What is 7 + 6?', 'answer': '13', 'image': 'assets/13.jpg'},
     {'question': 'What shape has 3 sides?', 'answer': 'Triangle', 'image': 'assets/triangle.jpg'},
     {'question': 'What is half of 10?', 'answer': '5', 'image': 'assets/5.jpg'},
     {'question': 'What number comes after 19?', 'answer': '20', 'image': 'assets/20.png'},
     {'question': 'What is 3 x 4?', 'answer': '12', 'image': 'assets/12.png'},
 
-    // Language
+    // Language question
     {'question': 'What letter comes after A?', 'answer': 'B', 'image': 'assets/b.png'},
     {'question': 'Which word rhymes with “cat”?', 'answer': 'Hat', 'image': 'assets/hat.jpg'},
     {'question': 'What sound does a dog make?', 'answer': 'Woof', 'image': 'assets/woof.jpg'},
@@ -32,12 +33,12 @@ class _FlashcardsScreenState extends State<FlashcardsScreen> {
     {'question': 'What color is a banana?', 'answer': 'Yellow', 'image': 'assets/banana.jpg'},
   ];
 
-  int currentIndex = 0;
-  bool showAnswer = false;
+  int currentIndex = 0;  // tracks which flashcard is currently show 
+  bool showAnswer = false;  // to track showing answer or question
   List<Map<String, dynamic>> selectedFlashcards = [];
 
   final Color themePrimary = Colors.deepOrangeAccent;
-  final Color themeBackground = const Color(0xFFFFF5E1); // light cream
+  final Color themeBackground = const Color(0xFFFFF5E1); //  background light cream
   final Color themeAccent = const Color(0xFF8B4513); // brown tone
 
 final List<Color> cardColors = List.generate(6, (index) => const Color.fromARGB(255, 255, 255, 255));
@@ -50,27 +51,27 @@ final List<Color> cardColors = List.generate(6, (index) => const Color.fromARGB(
   @override
   void initState() {
     super.initState();
-    allFlashcards.shuffle(Random());
-    selectedFlashcards = allFlashcards.take(10).toList();
+    allFlashcards.shuffle(Random());  // random the flascard order 
+    selectedFlashcards = allFlashcards.take(10).toList();  // take first for 10 cards
   }
 
   void nextCard() {
     setState(() {
-      showAnswer = false;
+      showAnswer = false;  // reset show answer when going to the next card 
       currentIndex = (currentIndex + 1) % selectedFlashcards.length;
     });
   }
 
   void previousCard() {
     setState(() {
-      showAnswer = false;
-      currentIndex = (currentIndex - 1 + selectedFlashcards.length) % selectedFlashcards.length;
+      showAnswer = false;  // reset show answer going to the previous card 
+      currentIndex = (currentIndex - 1 + selectedFlashcards.length) % selectedFlashcards.length;  // get the current card 
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final currentCard = selectedFlashcards[currentIndex];
+    final currentCard = selectedFlashcards[currentIndex];  // get current card 
 
     return Scaffold(
       appBar: AppBar(
@@ -134,7 +135,7 @@ final List<Color> cardColors = List.generate(6, (index) => const Color.fromARGB(
                       ElevatedButton(
                         onPressed: () {
                           setState(() {
-                            showAnswer = !showAnswer;
+                            showAnswer = !showAnswer;  // toggle between showing QnA
                           });
                         },
                         style: ElevatedButton.styleFrom(
@@ -162,8 +163,9 @@ final List<Color> cardColors = List.generate(6, (index) => const Color.fromARGB(
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                // button to go to the previous flashcard 
                 ElevatedButton.icon(
-                  onPressed: previousCard,
+                  onPressed: previousCard,  // move to the previous card 
                   icon: const Icon(Icons.arrow_back),
                   label: const Text('Previous'),
                   style: ElevatedButton.styleFrom(
@@ -173,16 +175,19 @@ final List<Color> cardColors = List.generate(6, (index) => const Color.fromARGB(
                     textStyle: const TextStyle(fontFamily: 'AlfaSlabOne'),
                   ),
                 ),
+                 // show the current position of the flashcard 
                 Text(
-                  '${currentIndex + 1} / ${selectedFlashcards.length}',
+                  '${currentIndex + 1} / ${selectedFlashcards.length}',  // show current position 
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     fontFamily: 'AlfaSlabOne',
                   ),
                 ),
+
+                // button to the next flashcard 
                 ElevatedButton.icon(
-                  onPressed: nextCard,
+                  onPressed: nextCard,   // move to the card 
                   icon: const Icon(Icons.arrow_forward),
                   label: const Text('Next'),
                   style: ElevatedButton.styleFrom(

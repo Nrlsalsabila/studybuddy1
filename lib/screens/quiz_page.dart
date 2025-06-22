@@ -9,11 +9,11 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  final Color themePrimary = Colors.deepOrangeAccent;
-  final Color themeBackground = const Color(0xFFFFF5E1); // light cream
+  final Color themePrimary = Colors.deepOrangeAccent;  // MAIN theme color
+  final Color themeBackground = const Color(0xFFFFF5E1); //  backgorund light cream
   final Color themeAccent = const Color(0xFF8B4513); // brown tone
 
-  final List<Map<String, dynamic>> questions = [
+  final List<Map<String, dynamic>> questions = [ // for question data 
     {
       'question': 'What color is the sky?',
       'options': ['Blue', 'Green', 'Red', 'Yellow'],
@@ -66,10 +66,10 @@ class _QuizPageState extends State<QuizPage> {
     },
   ];
 
-  int currentQuestion = 0;
+  int currentQuestion = 0; // current question index 
   late List<int?> selectedIndexes;
-  int score = 0;
-  Stopwatch stopwatch = Stopwatch();
+  int score = 0; // score counter 
+  Stopwatch stopwatch = Stopwatch(); // timer 
   late Timer timer;
   int elapsedSeconds = 0;
 
@@ -88,15 +88,17 @@ class _QuizPageState extends State<QuizPage> {
   @override
   void dispose() {
     timer.cancel();
-    stopwatch.stop();
+    stopwatch.stop();  // stop timer 
     super.dispose();
   }
 
+    // method to call when an option selected 
   void selectAnswer(int selectedIndex) {
     if (selectedIndexes[currentQuestion] != null) return;
 
     setState(() {
       selectedIndexes[currentQuestion] = selectedIndex;
+      // check if answer selected option  is the correct  answer 
       if (questions[currentQuestion]['options'][selectedIndex] ==
           questions[currentQuestion]['answer']) {
         score++;
@@ -106,15 +108,15 @@ class _QuizPageState extends State<QuizPage> {
     Future.delayed(const Duration(seconds: 1), () {
       if (currentQuestion < questions.length - 1) {
         setState(() {
-          currentQuestion++;
+          currentQuestion++; // move to the next question 
         });
       } else {
-        stopwatch.stop();
-        timer.cancel();
+        stopwatch.stop(); // stop timer when quiz done
+        timer.cancel();  //cancel timer for final results 
         showDialog(
           context: context,
           barrierDismissible: false,
-          builder: (_) => AlertDialog(
+          builder: (_) => AlertDialog(  
             title: const Text('Quiz Completed!'),
             content: Text(
               'Score: $score/${questions.length}\nTime: $elapsedSeconds seconds',
@@ -157,9 +159,11 @@ class _QuizPageState extends State<QuizPage> {
  @override
 Widget build(BuildContext context) {
   final question = questions[currentQuestion];
-  final selectedIndex = selectedIndexes[currentQuestion];
-  final correctAnswer = question['answer'];
+  final selectedIndex = selectedIndexes[currentQuestion];  // get current question 
+  final correctAnswer = question['answer']; // get correct answer 
 
+
+    // calculate for options 
   double screenWidth = MediaQuery.of(context).size.width;
   int optionsCount = question['options'].length;
   double padding = 16 * 2;
